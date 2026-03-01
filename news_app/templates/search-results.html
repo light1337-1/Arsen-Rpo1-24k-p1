@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ query }}{% endblock %}
+
+{% block content %}
+<section class="news-block">
+            <div class="container-fluid">
+        <div class="news-left">
+            <h3>Search results “{{ query }}”</h3>
+        {% if results %}
+            {% for post in results %}
+            <div class="news-block-card">
+                <img src="{{ post.image_url }}" alt="{{ post.title }}" class="news-block-img">
+                <div class="news-block-info">
+                    <h3>{{ post.title|truncatewords:7 }}</h3>
+                    <span>{{ post.created_at|date:"d.m.Y" }}</span>
+                    <a href="#">#{{ post.category.name }}</a>
+                    <p>{{ post.description|truncatewords:20 }}</p>
+                    <a href="{% url 'read_news_page' pk=post.pk %}">READ</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert-danger">
+                <h5>No data</h5>
+                <p>Try again or search some news</p>
+            </div>
+        {% endif %}
+            </div>
+            <div class="news-right">
+                <div class="news-block-adv">
+                <h3>Advertising</h3>
+               <div class="news-adv-card">
+                    {% for adv in advs %}
+                    <img src="{{ adv.image_url }}" alt="Advertising" class="news-adv-img">
+                    {% endfor %}</div>
+                </div>
+            </div>
+            </div>
+
+    </section>
+{% endblock %}

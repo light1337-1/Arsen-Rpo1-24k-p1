@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block content %}
+        <section class="hot-news">
+            <div class="container-fluid">
+                <h1>Hot news today</h1>
+                <div class="hot-news-grid">
+                    {%  for hot_post in hot_posts %}
+                    <a href="#" class="hot-news-item"
+                      style="background: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.33)), url({{ hot_post.image_url }}); background-size: cover ">
+                        <h3>{{ hot_post.title|truncatewords:7 }}</h3>
+                        <span>{{ hot_post.created_at|date:"d.m.Y" }}</span>
+                    </a>
+                    {% endfor %}
+                     </div>
+            </div>
+        </section>
+       <section class="news-block">
+            <div class="container-fluid">
+        <div class="news-left">
+    <h3>All news</h3>
+
+    {% for post in posts %}
+    <div class="news-block-card">
+        <img src="{{ post.image_url }}" alt="{{ post.title }}" class="news-block-img">
+        <div class="news-block-info">
+            <h3>{{ post.title|truncatewords:5 }}</h3>
+            <span>{{ post.created_at|date:"d.m.Y" }}</span>
+            <a href="#">#{{ post.category.name }}</a>
+            <p>{{ post.description|truncatewords:30 }}</p>
+            <a href="{% url 'read_news_page' pk=post.pk %}">READ</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+            <div class="news-right">
+                <div class="news-block-adv">
+                <h3>Advertising</h3>
+                <div class="news-adv-card">
+                    {% for adv in advs %}
+                    <img src="{{ adv.image_url }}" alt="Advertising" class="news-adv-img">
+                    {% endfor %}</div>
+                </div>
+            </div>
+            </div>
+        <center>
+            <a href="#" class="primary-text">See All</a>
+        </center>
+    </section>
+{% endblock %}

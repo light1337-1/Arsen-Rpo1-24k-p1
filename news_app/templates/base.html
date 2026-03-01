@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static './css/style.css/' %}">
+</head>
+<body>
+    <header class="header">
+
+        <div class="mobile-header">
+            <div class="container">
+                <a href="{% url 'home_page' %}" class="mobile-logo">
+                    <img src="{% static './img/QAZNEWS.svg'%}" alt="QAZNEWS">
+                </a>
+                <button class="burger-menu" id="burgerMenu" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+
+        <nav class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-section">
+                <h3>Басты меню</h3>
+                <a href="{% url 'home_page' %}">Home</a>
+                <a href="#">About</a>
+                <a href="#">FAQ</a>
+                <a href="#">Contact us</a>
+            </div>
+            <div class="mobile-nav-section">
+                <h3>Жаңалықтар</h3>
+                <a href="{% url 'all_news_page' %}">All news</a>
+                {% for category in categories %}
+                <a href="{% url 'news_by_category' pk=category.pk %}">{{ category.name }}</a>
+                {% endfor %}
+            </div>
+            <div class="mobile-nav-section">
+                <a href="{% url 'search_page' %}" class="mobile-search-btn">
+                    <img src="{% static './img/пойск.svg'%}" alt="search">
+                    <span>Search</span>
+                </a>
+            </div>
+            <div class="mobile-nav-section mobile-contact">
+                <a href="{% url 'admin:index' %}">
+                    <img src="{% static './img/login.svg'%}" alt="login">
+                    <span>Login</span>
+                </a>
+                <a href="tel:+77058307778">
+                    <img src="{% static './img/Tel.svg'%}" alt="phone">
+                    <span>+7 705 830 77 78</span>
+                </a>
+                <div class="mobile-social">
+                    <a href="">
+                        <img src="{% static './img/aaa.svg'%}" alt="social">
+                    </a>
+                    <a href="">
+                        <img src="{% static './img/telegram.svg'%}" alt="telegram">
+                    </a>
+                    <a href="">
+                        <img src="{% static './img/instagram.svg'%}" alt="instagram">
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="desktop-header">
+            <div class="primary-header">
+                <div class="container">
+                    <nav class="main-nav">
+                        <a href="{% url 'home_page' %}">Home</a>
+                        <a href="#">About</a>
+                        <a href="#">FAQ</a>
+                        <a href="#">Contact us</a>
+                    </nav>
+                    <nav class="social-nav">
+                        <a href="">
+                            <img src="{% static './img/aaa.svg'%}" alt="the ">
+                        </a>
+                        <a href="">
+                            <img src="{% static './img/telegram.svg'%}" alt="telegram">
+                        </a>
+                        <a href="">
+                            <img src="{% static './img/instagram.svg'%}" alt="instagram">
+                        </a>
+                    </nav>
+                </div>
+            </div>
+            <div class="container">
+                <div class="secondary-header">
+                    <div class="container-fluid">
+                        <a href="{% url 'admin:index' %}">
+                            <img src="{% static './img/login.svg'%}" alt="logo">
+                             <span>Login</span>
+                        </a>
+                        <a href="{% url 'home_page' %}" class="logo">
+                            <img src="{% static './img/QAZNEWS.svg'%}" alt="">
+                        </a>
+                        <a href="tel:+77058307778">
+                            <img src="{% static './img/Tel.svg'%}" alt="phone">
+                            <span>+7 777 777 77 77</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="third-header">
+                    <div class="container-fluid">
+                        <nav class="category-nav">
+                            <a href="{% url 'all_news_page' %}">All news</a>
+                            {% for category in categories %}
+                            <a href="{% url 'news_by_category' pk=category.pk %}">{{ category.name }}</a>
+                            {% endfor %}
+                        </nav>
+                        <a href="{% url 'search_page' %}" class="search-link">
+                            <img src="{% static './img/пойск.svg'%}" alt="search">
+                            <span>Search</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <a href="{% url 'home_page' %}">
+                <img src="{% static './img/QAZNEWS2.svg'%}" alt="logo">
+            </a>
+            <p>&copy; TOO Qaznews 2026, All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileNav = document.getElementById('mobileNav');
+
+        if (burgerMenu && mobileNav) {
+            burgerMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                burgerMenu.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+            });
+
+
+            document.addEventListener('click', (e) => {
+                if (!mobileNav.contains(e.target) && !burgerMenu.contains(e.target)) {
+                    burgerMenu.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
+            });
+
+
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    burgerMenu.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
